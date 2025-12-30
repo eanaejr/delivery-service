@@ -20,13 +20,18 @@ public class DeliveryRepository {
         Transaction tx = null;
         try (Session session = sessionFactory.openSession()) {
             tx = session.beginTransaction();
-            session.merge(delivery);
+            if (delivery.getId() == null) {
+                session.persist(delivery); // novi zapis
+            } else {
+                session.merge(delivery);   // update postojeći
+            }
             tx.commit();
         } catch (Exception e) {
             if (tx != null) tx.rollback();
             throw e;
         }
     }
+
 
     public List<Delivery> findAll() {
         try (Session session = sessionFactory.openSession()) {

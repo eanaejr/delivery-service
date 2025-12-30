@@ -3,7 +3,11 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
+    <!--    Ne moraš ručno skidati JAR-ove i stavljati ih u classpath.
+    U pom.xml definiraš koje biblioteke tvoj projekt koristi (npr. Hibernate, SQLite JDBC, Lombok).
+    Maven automatski preuzima točne verzije tih biblioteka s centralnog repozitorija.
+    Također automatski rješava transitive dependencies, tj. sve biblioteke koje tvoje biblioteke koriste.
+    -->
     <groupId>org.example</groupId>
     <artifactId>delivery-service</artifactId>
     <version>1.0-SNAPSHOT</version>
@@ -16,17 +20,40 @@
 
     <dependencies>
 
+        <!--
+        Hibernate core: glavna biblioteka za ORM (Object-Relational Mapping)
+        Omogućava mapiranje Java objekata na baze podataka
+        Anotacije:
+        - (preko Hibernate) @Entity, @Table, @Id, @GeneratedValue, @Column, @OneToMany, @ManyToOne, @JoinColumn, ...
+        -->
         <dependency>
             <groupId>org.hibernate.orm</groupId>
             <artifactId>hibernate-core</artifactId>
             <version>6.3.0.Final</version>
         </dependency>
 
+        <!--
+Jakarta Persistence API: standardni API za ORM u Javi
+Hibernate implementira ovaj API
+Anotacije uključuju:
+- @Entity (klasa je entitet / tablica)
+- @Table (specifično ime tablice)
+- @Id (primarni ključ)
+- @GeneratedValue (strategija generiranja ID-a)
+- @Column (specifikacija kolone, nullable, length)
+- @OneToMany, @ManyToOne (veze između entiteta)
+- @JoinColumn (foreign key kolona)
+-->
         <dependency>
             <groupId>jakarta.persistence</groupId>
             <artifactId>jakarta.persistence-api</artifactId>
             <version>3.1.0</version>
         </dependency>
+
+        <!--
+SQLite JDBC driver: omogućava povezivanje s SQLite bazom podataka preko JDBC-a
+Nema specifičnih anotacija, koristi se samo za konekciju i izvršavanje SQL-a
+-->
 
         <dependency>
             <groupId>org.xerial</groupId>
@@ -34,18 +61,37 @@
             <version>3.43.2.0</version>
         </dependency>
 
+        <!--
+Hibernate community dialects: dodaje podršku za razne SQL dijalekte (SQLite, MySQL, PostgreSQL, itd.)
+Nema dodatnih anotacija, ali omogućava Hibernate-u da zna kako generirati SQL za različite baze
+-->
+
         <dependency>
             <groupId>org.hibernate.orm</groupId>
             <artifactId>hibernate-community-dialects</artifactId>
             <version>6.3.0.Final</version>
         </dependency>
 
+        <!--
+SLF4J Simple: logging framework
+Nema anotacija, koristi se za ispis logova iz Hibernate-a i ostalih biblioteka
+-->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
             <version>2.0.9</version>
         </dependency>
 
+        <!--
+Lombok: olakšava pisanje Java koda (generira gettere, settere, konstruktore itd.)
+Scope 'provided' znači da će biti potrebna samo za kompajliranje, ne za runtime
+Anotacije uključuju:
+- @Getter (generira getter metode)
+- @Setter (generira setter metode)
+- @NoArgsConstructor (generira konstruktor bez argumenata)
+- @AllArgsConstructor (generira konstruktor sa svim poljima)
+- @Builder (builder pattern za kreiranje objekata)
+-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>

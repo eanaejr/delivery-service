@@ -41,7 +41,7 @@ public class MainController {
                 case "3" -> productController.run();
                 case "4" -> deliveryController.run();
                 case "5" -> {
-                    System.out.println("Bye 👋");
+                    System.out.println("Bye");
                     return;
                 }
                 default -> System.out.println("Invalid option");

@@ -10,30 +10,31 @@ import com.example.service.CourierService;
 import com.example.service.DeliveryService;
 import com.example.service.ProductService;
 import com.example.utils.HibernateUtil;
+import org.hibernate.SessionFactory;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        var sessionFactory = HibernateUtil.getSessionFactory();
+        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 
         // repositories
-        var containerRepo = new ContainerRepository(sessionFactory);
-        var productRepo = new ProductRepository(sessionFactory);
-        var courierRepo = new CourierRepository(sessionFactory);
-        var deliveryRepo = new DeliveryRepository(sessionFactory);
+        ContainerRepository containerRepo = new ContainerRepository(sessionFactory);
+        ProductRepository productRepo = new ProductRepository(sessionFactory);
+        CourierRepository courierRepo = new CourierRepository(sessionFactory);
+        DeliveryRepository deliveryRepo = new DeliveryRepository(sessionFactory);
 
         // services
-        var containerService = new ContainerService(containerRepo);
-        var productService = new ProductService(productRepo);
-        var courierService = new CourierService(courierRepo);
-        var deliveryService = new DeliveryService(deliveryRepo);
+        ContainerService containerService = new ContainerService(containerRepo);
+        ProductService productService = new ProductService(productRepo);
+        CourierService courierService = new CourierService(courierRepo);
+        DeliveryService deliveryService = new DeliveryService(deliveryRepo);
 
         // controllers
-        var containerController = new ContainerController(containerService);
-        var productController = new ProductController(productService, containerService);
-        var courierController = new CourierController(courierService);
-        var deliveryController = new DeliveryController(deliveryService, productService, courierService
+        ContainerController containerController = new ContainerController(containerService);
+        ProductController productController = new ProductController(productService, containerService);
+        CourierController courierController = new CourierController(courierService);
+        DeliveryController deliveryController = new DeliveryController(deliveryService, productService, courierService
         );
 
         new MainController(
